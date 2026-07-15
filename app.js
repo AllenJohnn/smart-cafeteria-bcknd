@@ -78,7 +78,7 @@ app.post("/students-add", async (req, res) => {
   }
 });
 
-app.get("/students-view", async (req, res) => {
+app.post("/students-view", async (req, res) => {
   try {
     const data = await Student.find();
     res.json(data);
