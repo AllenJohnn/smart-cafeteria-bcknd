@@ -9,7 +9,7 @@ app.use(express.json());
 
 mongoose
   .connect(
-    "mongodb+srv://testuser1:testuser1@cluster0.ozpuuan.mongodb.net/cafeteria-db",
+    "mongodb+srv://testuser1:testuser1@cluster0.ozpuuan.mongodb.net/cafeteria-db"
   )
   .then(() => {
     console.log("MongoDB Connected");
@@ -29,7 +29,7 @@ const Student = mongoose.model(
     email: String,
     phone: String,
     registrationDate: String,
-  }),
+  })
 );
 
 const Menu = mongoose.model(
@@ -46,7 +46,7 @@ const Menu = mongoose.model(
     itemImageUrl: String,
     addedDate: String,
     popularityTag: String,
-  }),
+  })
 );
 
 const Offer = mongoose.model(
@@ -62,7 +62,7 @@ const Offer = mongoose.model(
     couponCode: String,
     minimumOrderAmount: Number,
     status: String,
-  }),
+  })
 );
 
 app.post("/test", (req, res) => {
@@ -72,15 +72,13 @@ app.post("/test", (req, res) => {
 app.post("/students-add", async (req, res) => {
   try {
     await Student.create(req.body);
-    res.json({
-      status: "Student Registered Successfully",
-    });
+    res.json({ status: "Student Registered Successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-app.post("/students-view", async (req, res) => {
+app.get("/students-view", async (req, res) => {
   try {
     const data = await Student.find();
     res.json(data);
@@ -92,9 +90,7 @@ app.post("/students-view", async (req, res) => {
 app.post("/menu-add", async (req, res) => {
   try {
     await Menu.create(req.body);
-    res.json({
-      status: "Menu Item Added Successfully",
-    });
+    res.json({ status: "Menu Item Added Successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -112,9 +108,7 @@ app.post("/menu-view", async (req, res) => {
 app.post("/offers-add", async (req, res) => {
   try {
     await Offer.create(req.body);
-    res.json({
-      status: "Offer Added Successfully",
-    });
+    res.json({ status: "Offer Added Successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
