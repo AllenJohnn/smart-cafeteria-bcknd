@@ -32,11 +32,44 @@ const Student = mongoose.model(
   }),
 );
 
+const Menu = mongoose.model(
+  "menus",
+  new mongoose.Schema({
+    itemId: String,
+    itemName: String,
+    category: String,
+    description: String,
+    price: Number,
+    quantityAvailable: Number,
+    preparationTime: String,
+    availabilityStatus: String,
+    itemImageUrl: String,
+    addedDate: String,
+    popularityTag: String,
+  }),
+);
+
+const Offer = mongoose.model(
+  "offers",
+  new mongoose.Schema({
+    offerId: String,
+    offerName: String,
+    applicableItem: String,
+    discountPercentage: Number,
+    offerDescription: String,
+    validFrom: String,
+    validUntil: String,
+    couponCode: String,
+    minimumOrderAmount: Number,
+    status: String,
+  }),
+);
+
 app.post("/test", (req, res) => {
   res.send("Hello");
 });
 
-app.get("/students-add", async (req, res) => {
+app.post("/students-add", async (req, res) => {
   try {
     await Student.create(req.body);
     res.json({
@@ -47,10 +80,68 @@ app.get("/students-add", async (req, res) => {
   }
 });
 
-app.get("/students-view", async (req, res) => {
+app.post("/students-view", async (req, res) => {
   try {
     const data = await Student.find();
     res.json(data);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.post("/menu-add", async (req, res) => {
+  try {
+    await Menu.create(req.body);
+    res.json({
+      status: "Menu Item Added Successfully",
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.post("/menu-view", async (req, res) => {
+  try {
+    const data = await Menu.find();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.post("/offers-add", async (req, res) => {
+  try {
+    await Offer.create(req.body);
+    res.json({
+      status: "Offer Added Successfully",
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.post("/offers-view", async (req, res) => {
+  try {
+    const data = await Offer.find();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.post("/dashboard", async (req, res) => {
+  try {
+    const students = await Student.countDocuments();
+    const menuProducts = await Menu.countDocuments();
+    const activeOffers = await Offer.countDocuments({
+      status: "Active",
+    });
+
+    res.json({
+      registeredStudents: students,
+      menuProducts: menuProducts,
+      activeOffers: activeOffers,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
