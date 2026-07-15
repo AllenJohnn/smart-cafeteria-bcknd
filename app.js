@@ -9,7 +9,7 @@ app.use(express.json());
 
 mongoose
   .connect(
-    "mongodb+srv://testuser1:testuser1@cluster0.ozpuuan.mongodb.net/cafeteria-db"
+    "mongodb+srv://testuser1:testuser1@cluster0.ozpuuan.mongodb.net/cafeteria-db",
   )
   .then(() => {
     console.log("MongoDB Connected");
@@ -29,14 +29,14 @@ const Student = mongoose.model(
     email: String,
     phone: String,
     registrationDate: String,
-  })
+  }),
 );
 
 app.post("/test", (req, res) => {
   res.send("Hello");
 });
 
-app.post("/students-add", async (req, res) => {
+app.get("/students-add", async (req, res) => {
   try {
     await Student.create(req.body);
     res.json({
@@ -47,7 +47,7 @@ app.post("/students-add", async (req, res) => {
   }
 });
 
-app.post("/students-view", async (req, res) => {
+app.get("/students-view", async (req, res) => {
   try {
     const data = await Student.find();
     res.json(data);
