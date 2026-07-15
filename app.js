@@ -72,7 +72,6 @@ app.post("/test", (req, res) => {
   res.send("Hello");
 });
 
-// --- STUDENT DISPATCHERS ---
 app.post("/students-add", async (req, res) => {
   try {
     await Student.create(req.body);
